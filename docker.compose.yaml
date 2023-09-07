@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  backend:
+    build: ./
+    container_name: nestjs_api
+    environment:
+      - PORT=5000
+      - JWT_SECRET=123
+      - MONGO_URI=mongodb://localhost:27017/temp-mail
+      ports:
+        - '3000:3000'
+      depends_on:
+        - database
+
+    database:
+      image: mongo
+      ports:
+        - '27017:27017'
+      volumes:
+        - './mongodb-backuo:/data/db'
+      networks:
+        - nestjs_network
+
+networks:
+  nestjs_network:
+    driver: bridge              
